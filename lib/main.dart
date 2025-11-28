@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'screens/pantalla1.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -12,16 +12,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Gym Coach',
+      title: 'App Gym',
       theme: ThemeData(
+        primarySwatch: Colors.blue,
         brightness: Brightness.dark,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF00D1FF),
-          brightness: Brightness.dark,
-        ),
-        useMaterial3: true,
       ),
-      home: const Pantalla1(),
+      home: Pantalla1(),
     );
   }
 }

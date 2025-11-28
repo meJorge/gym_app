@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import '../widgets/pantalla3_ui.dart';
 
 class DiaRutina {
-  final String dia;
-  final String titulo;
-  final String descripcion;
+  String dia;
+  String titulo;
+  String descripcion;
 
   DiaRutina({
     required this.dia,
@@ -18,160 +18,125 @@ class Pantalla3 extends StatelessWidget {
   final int entrenamientosPorSemana;
 
   const Pantalla3({
-    super.key,
     required this.nombre,
     required this.entrenamientosPorSemana,
   });
 
-  List<DiaRutina> _generarRutina() {
-    // Siempre mostramos lunes a domingo, marcando descanso cuando toque
-    const dias = [
-      "Lunes",
-      "Martes",
-      "Miércoles",
-      "Jueves",
-      "Viernes",
-      "Sábado",
-      "Domingo",
-    ];
-
-    // base de rutinas según frecuencia
-    List<DiaRutina> rutina = [];
+  List<DiaRutina> crearRutinaSemanal() {
+    var dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+    var rutina = <DiaRutina>[];
 
     if (entrenamientosPorSemana >= 5) {
-      // Push/pull/legs + fuerza + full body
-      rutina = [
-        DiaRutina(
-          dia: "Lunes",
-          titulo: "Pecho y tríceps",
-          descripcion:
-              "Press banca, flexiones, aperturas con mancuernas, fondos en banca, extensión de tríceps.",
-        ),
-        DiaRutina(
-          dia: "Martes",
-          titulo: "Espalda y bíceps",
-          descripcion:
-              "Remo con barra, jalones al pecho, remo mancuerna, curl bíceps barra y mancuernas.",
-        ),
-        DiaRutina(
-          dia: "Miércoles",
-          titulo: "Pierna completa",
-          descripcion:
-              "Sentadillas, press pierna, desplantes, peso muerto rumano, elevación de talones (pantorrilla).",
-        ),
-        DiaRutina(
-          dia: "Jueves",
-          titulo: "Hombro y core",
-          descripcion:
-              "Press militar, elevaciones laterales y frontales, encogimientos, plancha, crunches.",
-        ),
-        DiaRutina(
-          dia: "Viernes",
-          titulo: "Full body + cardio ligero",
-          descripcion:
-              "Circuito de cuerpo completo con poco peso y más repeticiones, 15–20 min de caminata rápida o bici.",
-        ),
-      ];
+      rutina.add(DiaRutina(
+        dia: "Lunes",
+        titulo: "Pecho y Tríceps",
+        descripcion: "Press banca 4x8-12, Flexiones 3x15, Aperturas 3x12, Fondos 3x10, Extensiones tríceps 3x12"
+      ));
+      rutina.add(DiaRutina(
+        dia: "Martes", 
+        titulo: "Espalda y Bíceps",
+        descripcion: "Dominadas 4x8, Remo con barra 4x8-12, Jalón al pecho 3x12, Curl bíceps 3x12, Martillo 3x12"
+      ));
+      rutina.add(DiaRutina(
+        dia: "Miércoles",
+        titulo: "Piernas",
+        descripcion: "Sentadillas 4x8-12, Peso muerto 4x8, Prensa 3x12, Gemelos 4x15, Abductores 3x15"
+      ));
+      rutina.add(DiaRutina(
+        dia: "Jueves",
+        titulo: "Hombros y Core",
+        descripcion: "Press militar 4x8-12, Elevaciones laterales 3x15, Face pulls 3x15, Plancha 3x1min, Crunches 3x20"
+      ));
+      rutina.add(DiaRutina(
+        dia: "Viernes",
+        titulo: "Full Body",
+        descripcion: "Circuito: Sentadilla, Press banca, Remo, Press hombro - 4 rondas de 12 repeticiones cada ejercicio"
+      ));
     } else if (entrenamientosPorSemana == 4) {
-      rutina = [
-        DiaRutina(
-          dia: "Lunes",
-          titulo: "Superior (pecho, espalda, brazos)",
-          descripcion:
-              "Ejercicios básicos: press banca, remo, jalones, curl bíceps, tríceps polea.",
-        ),
-        DiaRutina(
-          dia: "Martes",
-          titulo: "Pierna y core",
-          descripcion:
-              "Sentadillas, desplantes, peso muerto rumano, press pierna, plancha, crunches.",
-        ),
-        DiaRutina(
-          dia: "Jueves",
-          titulo: "Superior (variación)",
-          descripcion:
-              "Máquinas y mancuernas, énfasis en hombro y espalda alta.",
-        ),
-        DiaRutina(
-          dia: "Sábado",
-          titulo: "Pierna ligera + cardio",
-          descripcion:
-              "Pierna más ligera, trabajo de movilidad y 20–30 min de caminata/bici.",
-        ),
-      ];
+      rutina.add(DiaRutina(
+        dia: "Lunes",
+        titulo: "Tren Superior",
+        descripcion: "Press banca, Remo, Press hombro, Curl bíceps, Extensiones tríceps - 4x8-12 cada uno"
+      ));
+      rutina.add(DiaRutina(
+        dia: "Martes",
+        titulo: "Tren Inferior",
+        descripcion: "Sentadillas, Peso muerto, Prensa, Gemelos - 4x8-12 cada uno"
+      ));
+      rutina.add(DiaRutina(
+        dia: "Jueves",
+        titulo: "Tren Superior",
+        descripcion: "Press inclinado, Jalón, Elevaciones laterales, Martillo, Fondos - 3x12-15"
+      ));
+      rutina.add(DiaRutina(
+        dia: "Sábado",
+        titulo: "Full Body + Cardio",
+        descripcion: "Peso muerto, Press banca, Sentadilla, Core - 3x12 + 20min cardio ligero"
+      ));
     } else if (entrenamientosPorSemana == 3) {
-      rutina = [
-        DiaRutina(
-          dia: "Lunes",
-          titulo: "Full body A",
-          descripcion:
-              "Sentadilla, press banca, remo, press hombro, curl bíceps, tríceps.",
-        ),
-        DiaRutina(
-          dia: "Miércoles",
-          titulo: "Full body B",
-          descripcion:
-              "Peso muerto rumano, jalones, fondo en banca, elevaciones laterales, core.",
-        ),
-        DiaRutina(
-          dia: "Viernes",
-          titulo: "Full body C",
-          descripcion:
-              "Variación con máquinas y mancuernas, menos peso, más repeticiones.",
-        ),
-      ];
+      rutina.add(DiaRutina(
+        dia: "Lunes",
+        titulo: "Full Body A",
+        descripcion: "Sentadilla 4x8, Press banca 4x8, Remo 4x8, Plancha 3x1min"
+      ));
+      rutina.add(DiaRutina(
+        dia: "Miércoles",
+        titulo: "Full Body B", 
+        descripcion: "Peso muerto 4x8, Press hombro 4x8, Jalón 4x8, Crunches 3x15"
+      ));
+      rutina.add(DiaRutina(
+        dia: "Viernes",
+        titulo: "Full Body C",
+        descripcion: "Prensa 4x10, Flexiones 4x12, Curl bíceps 3x12, Extensiones 3x12, Gemelos 4x15"
+      ));
     } else {
-      // 1–2 entrenos
-      rutina = [
-        DiaRutina(
-          dia: "Lunes",
-          titulo: "Rutina general",
-          descripcion:
-              "Cuerpo completo: sentadilla, press banca, remo, hombro, bíceps, tríceps, algo de core.",
-        ),
-        if (entrenamientosPorSemana == 2)
-          DiaRutina(
-            dia: "Jueves",
-            titulo: "Rutina general 2",
-            descripcion:
-                "Mismas zonas pero con variaciones en máquinas y mancuernas.",
-          ),
-      ];
-    }
-
-    // rellenar con descansos para los días sin entreno
-    final diasUsados = rutina.map((r) => r.dia).toSet();
-    for (final d in dias) {
-      if (!diasUsados.contains(d)) {
-        rutina.add(
-          DiaRutina(
-            dia: d,
-            titulo: "Descanso / actividad ligera",
-            descripcion:
-                "Caminar, estirar, movilidad articular, nada intenso. Deja que tu cuerpo se recupere.",
-          ),
-        );
+      rutina.add(DiaRutina(
+        dia: "Lunes",
+        titulo: "Full Body Completo",
+        descripcion: "Sentadilla 3x10, Press banca 3x10, Remo 3x10, Press hombro 3x10, Curl 3x12, Tríceps 3x12"
+      ));
+      if (entrenamientosPorSemana == 2) {
+        rutina.add(DiaRutina(
+          dia: "Jueves",
+          titulo: "Full Body Variado",
+          descripcion: "Peso muerto 3x8, Flexiones 3x15, Jalón 3x12, Elevaciones 3x15, Plancha 3x1min"
+        ));
       }
     }
 
-    // mantener orden de lunes a domingo
-    rutina.sort((a, b) => dias.indexOf(a.dia).compareTo(dias.indexOf(b.dia)));
+    // Agregar días de descanso
+    for (var dia in dias) {
+      bool existe = rutina.any((r) => r.dia == dia);
+      if (!existe) {
+        rutina.add(DiaRutina(
+          dia: dia,
+          titulo: "Descanso Activo",
+          descripcion: "Descanso o actividad ligera: caminar, estirar, movilidad. Importante para la recuperación muscular."
+        ));
+      }
+    }
+
+    // Ordenar por días de la semana
+    rutina.sort((a, b) {
+      var orden = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+      return orden.indexOf(a.dia).compareTo(orden.indexOf(b.dia));
+    });
 
     return rutina;
   }
 
   @override
   Widget build(BuildContext context) {
-    void regresarPantalla2() {
+    void volverAtras() {
       Navigator.pop(context);
     }
 
-    final rutina = _generarRutina();
+    var rutina = crearRutinaSemanal();
 
     return Pantalla3UI(
       nombre: nombre,
       rutina: rutina,
-      onBack: regresarPantalla2,
+      onBack: volverAtras,
     );
   }
 }

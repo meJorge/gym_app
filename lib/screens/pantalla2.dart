@@ -9,58 +9,106 @@ class Pantalla2 extends StatelessWidget {
   final int entrenamientosPorSemana;
 
   const Pantalla2({
-    super.key,
     required this.nombre,
     required this.edad,
     required this.pesoKg,
     required this.entrenamientosPorSemana,
   });
 
-  String _generarPlanComidas() {
-    // Súper simple: solo ejemplos generales, no es asesoría médica
+  String generarPlanComidas() {
     if (entrenamientosPorSemana >= 5) {
-      return "Objetivo: Ganar masa muscular de manera controlada.\n\n"
-          "• Desayuno: Avena con leche, plátano y proteína en polvo.\n"
-          "• Comida: Pechuga de pollo, arroz, verduras.\n"
-          "• Cena: Pescado o pollo con ensalada y algo de carbohidrato (papa/arroz).\n"
-          "• Snacks: Yogur griego, frutos secos, fruta.\n";
+      return """
+OBJETIVO: Ganar masa muscular
+
+DESAYUNO:
+- Avena con leche y plátano
+- Huevos revueltos (3-4 claras)
+- Café o té
+
+COMIDA: 
+- Pechuga de pollo o pescado (200g)
+- Arroz integral (1 taza)
+- Ensalada de verduras
+
+CENA:
+- Filete de pescado o pollo
+- Verduras al vapor
+- Aguacate
+
+SNACKS:
+- Yogur griego
+- Frutos secos
+- Batido de proteína
+""";
     } else if (entrenamientosPorSemana >= 3) {
-      return "Objetivo: Recomendación general para recomposición y salud.\n\n"
-          "• Desayuno: Huevos con verduras y tortilla o pan integral.\n"
-          "• Comida: Carne magra (pollo/res) con arroz/pasta y ensalada.\n"
-          "• Cena: Algo ligero: atún, ensalada, sándwich integral.\n"
-          "• Snacks: Fruta, yogurt, puñado pequeño de nueces.\n";
+      return """
+OBJETIVO: Mantener y tonificar
+
+DESAYUNO:
+- Huevos con pan integral
+- Fruta
+- Café
+
+COMIDA:
+- Pollo o pavo
+- Pasta o arroz
+- Ensalada
+
+CENA:
+- Pescado a la plancha
+- Verduras
+- Queso cottage
+
+SNACKS:
+- Fruta
+- Nueces
+- Yogur
+""";
     } else {
-      return "Objetivo: Hábitos saludables básicos.\n\n"
-          "• Evita bebidas azucaradas y exceso de comida chatarra.\n"
-          "• Come proteína en cada comida (huevo, pollo, atún, frijoles).\n"
-          "• Mucha agua durante el día.\n"
-          "• Incluye verduras al menos 1–2 veces al día.\n";
+      return """
+OBJETIVO: Hábitos saludables
+
+- Come cada 3-4 horas
+- Incluye proteína en cada comida
+- Mucha agua (2-3 litros diarios)
+- Evita azúcares y comida procesada
+- Frutas y verduras variadas
+""";
     }
   }
 
-  String _generarRecomendaciones() {
-    final String nivel = entrenamientosPorSemana >= 5
-        ? "alto"
-        : (entrenamientosPorSemana >= 3 ? "medio" : "bajo");
+  String generarRecomendaciones() {
+    String nivel;
+    if (entrenamientosPorSemana >= 5) {
+      nivel = "avanzado";
+    } else if (entrenamientosPorSemana >= 3) {
+      nivel = "intermedio";
+    } else {
+      nivel = "principiante";
+    }
 
-    return "Con $entrenamientosPorSemana entrenamientos por semana tu nivel de actividad es $nivel.\n\n"
-        "Recomendaciones generales:\n"
-        "• Duerme 7–9 horas por noche.\n"
-        "• Bebe al menos 2L de agua al día (más si sudas mucho).\n"
-        "• Calienta 5–10 minutos antes de entrenar y estira al finalizar.\n"
-        "• Lleva un registro simple de tus entrenos (peso, reps, cómo te sentiste).\n"
-        "• Aumenta el peso o la intensidad poco a poco.\n\n"
-        "Esto es solo una guía general, no sustituye asesoría profesional.";
+    return """
+Nivel de actividad: $nivel
+
+RECOMENDACIONES:
+• Descanso: Duerme 7-9 horas diarias
+• Hidratación: 2-3 litros de agua al día
+• Calentamiento: 5-10 min antes de entrenar
+• Estiramiento: Después de cada sesión
+• Progresión: Aumenta pesos gradualmente
+• Consistencia: Mejor poco y constante que mucho y abandonar
+
+NOTA: Consulta con profesional para plan personalizado.
+""";
   }
 
   @override
   Widget build(BuildContext context) {
-    void irAPantalla3() {
+    void irARutinas() {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => Pantalla3(
+          builder: (ctx) => Pantalla3(
             nombre: nombre,
             entrenamientosPorSemana: entrenamientosPorSemana,
           ),
@@ -68,22 +116,19 @@ class Pantalla2 extends StatelessWidget {
       );
     }
 
-    void regresarPantalla1() {
+    void volverAtras() {
       Navigator.pop(context);
     }
-
-    final planComidas = _generarPlanComidas();
-    final recomendaciones = _generarRecomendaciones();
 
     return Pantalla2UI(
       nombre: nombre,
       edad: edad,
       pesoKg: pesoKg,
       entrenamientosPorSemana: entrenamientosPorSemana,
-      planComidas: planComidas,
-      recomendaciones: recomendaciones,
-      onNext: irAPantalla3,
-      onBack: regresarPantalla1,
+      planComidas: generarPlanComidas(),
+      recomendaciones: generarRecomendaciones(),
+      onNext: irARutinas,
+      onBack: volverAtras,
     );
   }
 }

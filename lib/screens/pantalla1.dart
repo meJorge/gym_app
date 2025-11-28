@@ -10,58 +10,59 @@ class Pantalla1 extends StatefulWidget {
 }
 
 class _Pantalla1State extends State<Pantalla1> {
-  final TextEditingController nombreCtrl = TextEditingController();
-  final TextEditingController edadCtrl = TextEditingController();
-  final TextEditingController pesoCtrl = TextEditingController();
-  final TextEditingController entrenosCtrl = TextEditingController();
+  final TextEditingController controllerNombre = TextEditingController();
+  final TextEditingController controllerEdad = TextEditingController();
+  final TextEditingController controllerPeso = TextEditingController();
+  final TextEditingController controllerEntrenos = TextEditingController();
 
-  void _continuar() {
-    final nombre = nombreCtrl.text.trim();
-    final edadTexto = edadCtrl.text.trim();
-    final pesoTexto = pesoCtrl.text.trim();
-    final entrenosTexto = entrenosCtrl.text.trim();
+  void procesarDatos() {
+    String nombre = controllerNombre.text.trim();
+    String edadTexto = controllerEdad.text.trim();
+    String pesoTexto = controllerPeso.text.trim();
+    String entrenosTexto = controllerEntrenos.text.trim();
 
-    if (nombre.isEmpty ||
-        edadTexto.isEmpty ||
-        pesoTexto.isEmpty ||
-        entrenosTexto.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Completa todos los campos")),
-      );
+    if (nombre.isEmpty) {
+      mostrarMensajeError("El nombre es requerido");
       return;
     }
 
-    final edad = int.tryParse(edadTexto);
-    final peso = double.tryParse(pesoTexto.replaceAll(',', '.'));
-    final entrenos = int.tryParse(entrenosTexto);
-
-    if (edad == null || edad <= 0) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Edad inválida")));
+    if (edadTexto.isEmpty) {
+      mostrarMensajeError("La edad es requerida");
       return;
     }
 
-    if (peso == null || peso <= 0) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Peso inválido")));
+    if (pesoTexto.isEmpty) {
+      mostrarMensajeError("El peso es requerido");
       return;
     }
 
-    if (entrenos == null || entrenos <= 0 || entrenos > 7) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Entrenamientos por semana debe ser entre 1 y 7"),
-        ),
-      );
+    if (entrenosTexto.isEmpty) {
+      mostrarMensajeError("Los entrenamientos son requeridos");
       return;
     }
 
-    Navigator.push(
-      context,
+    int? edad = int.tryParse(edadTexto);
+    if (edad == null || edad < 10 || edad > 100) {
+      mostrarMensajeError("Edad debe ser entre 10 y 100 años");
+      return;
+    }
+
+    double? peso = double.tryParse(pesoTexto);
+    if (peso == null || peso < 30 || peso > 300) {
+      mostrarMensajeError("Peso debe ser entre 30 y 300 kg");
+      return;
+    }
+
+    int? entrenos = int.tryParse(entrenosTexto);
+    if (entrenos == null || entrenos < 1 || entrenos > 7) {
+      mostrarMensajeError("Entrenamientos deben ser entre 1 y 7 por semana");
+      return;
+    }
+
+    // Todo está bien, navegar a siguiente pantalla
+    Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => Pantalla2(
+        builder: (ctx) => Pantalla2(
           nombre: nombre,
           edad: edad,
           pesoKg: peso,
@@ -71,14 +72,23 @@ class _Pantalla1State extends State<Pantalla1> {
     );
   }
 
+  void mostrarMensajeError(String mensaje) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(mensaje),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Pantalla1UI(
-      nombreCtrl: nombreCtrl,
-      edadCtrl: edadCtrl,
-      pesoCtrl: pesoCtrl,
-      entrenosCtrl: entrenosCtrl,
-      onContinue: _continuar,
+      nombreCtrl: controllerNombre,
+      edadCtrl: controllerEdad,
+      pesoCtrl: controllerPeso,
+      entrenosCtrl: controllerEntrenos,
+      onContinue: procesarDatos,
     );
   }
 }
